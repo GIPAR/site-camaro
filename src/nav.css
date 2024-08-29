@@ -1,0 +1,9 @@
+.nav-link {
+    color: rgb(48, 48, 48);
+}
+  
+.nav-link.active-link {
+    font-weight: bolder;
+    color: rgb(65, 65, 65);
+}
+  

@@ -1,0 +1,14 @@
+.pedido-container {
+    padding-top: 50px; /* ajuste conforme necessário para espaçar do topo */
+  }
+
+.pedido {
+    width: 80%;
+    max-width: 600px; /* largura máxima para melhor visualização em telas maiores */
+    margin: 0 auto; /* centraliza horizontalmente */
+    background-color: #f0f0f0; /* fundo cinza claro */
+    padding: 20px; /* espaçamento interno */
+    border-radius: 10px; /* bordas levemente arredondadas */
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1); /* sombra suave */
+  }
+  
