@@ -1,0 +1,32 @@
+body {
+  background-color: #f0f0f0;
+}
+
+.container {
+  background-color: #ffffff;
+  padding: 50px;
+}
+
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  border: 1px solid #dddddd;
+  margin-bottom: 40px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #dddddd;
+}
+
+button {
+  margin: 5px 1px;
+  padding: 5px 10px;
+}

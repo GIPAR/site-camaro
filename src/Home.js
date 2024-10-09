@@ -13,7 +13,7 @@ function Home() {
     <div>
       <Navbar />
       <div className='title'>
-        <h2 className='text-center'>Como Utilizar a Plataforma</h2>
+        <h2 className='text-center my-3'>Como Utilizar a Plataforma</h2>
       </div>
       <div className="home-container d-flex justify-content-between">
         <div id="carouselExampleCaptions" className="carousel slide w-75" data-bs-ride="carousel">

@@ -1,8 +1,8 @@
-.pedido-container {
+.container {
     padding-top: 50px; /* ajuste conforme necessário para espaçar do topo */
   }
 
-.pedido {
+.form-container{
     width: 80%;
     max-width: 600px; /* largura máxima para melhor visualização em telas maiores */
     margin: 0 auto; /* centraliza horizontalmente */
@@ -12,3 +12,6 @@
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.1); /* sombra suave */
   }
   
+select{
+  appearance: auto !important;
+}
