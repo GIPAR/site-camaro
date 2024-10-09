@@ -4,7 +4,7 @@ import "./add.css";
 
 function Dispositivo() {
   const [nome, setNome] = useState(""); // Store name
-  const [IP, setIP] = useState(""); // Store IP address
+  const [ip, setIP] = useState(""); // Store IP address
   const [permissaoAcesso, setPermissaoAcesso] = useState(""); // Store access permission
   const [tipo, setTipo] = useState(""); // Store device type
   const [mensagem, setMensagem] = useState("");
@@ -19,7 +19,7 @@ function Dispositivo() {
         },
         body: JSON.stringify({
           nome: nome,
-          IP: IP,
+          ip: ip,
           permissao_acesso: permissaoAcesso,
           tipo: tipo,
         }),
@@ -67,7 +67,7 @@ function Dispositivo() {
             className="form-control form-control-sm"
             type="text"
             placeholder="Digite o endereço IP do dispositivo"
-            value={IP}
+            value={ip}
             onChange={(e) => setIP(e.target.value)}
           />
 
