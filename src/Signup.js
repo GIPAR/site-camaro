@@ -7,7 +7,7 @@ import axios from 'axios';
 function Signup() {
     const [values, setValues] = useState({
         name: '',
-        id: '',
+        email: '',
         password: '',
         confirmPassword: ''
     });
@@ -17,7 +17,7 @@ function Signup() {
 
     useEffect(() => {
         if (Object.keys(errors).length === 0 && values.name && values.id && values.password && values.confirmPassword) {
-            axios.post('http://localhost:3001/signup', values)  // URL ajustada
+            axios.post('http://localhost:3001/cadastro', values)  // URL ajustada
                 .then(res => {
                     navigate('/');
                 })
@@ -35,6 +35,18 @@ function Signup() {
         event.preventDefault();
         const validationErrors = Validation(values);
         setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length === 0) {
+            axios.post('http://localhost:3001/usuarios/cadastro', values)
+                .then(res => {
+                    alert('Cadastro realizado com sucesso!');
+                    navigate('/');
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+
     };
 
     return (
@@ -49,9 +61,9 @@ function Signup() {
                             {errors.name && <span className='text-danger'>{errors.name}</span>}
                         </div>
                         <div className='mb-3'>
-                            <label htmlFor='id' className='mb-1'>Numero do ID</label>
-                            <input type='text' placeholder='Insira seu ID' name='id' onChange={handleInput} className='form-control rounded-0'/>
-                            {errors.id && <span className='text-danger'>{errors.id}</span>}
+                            <label htmlFor='email' className='mb-1'>E-mail</label>
+                            <input type='email' placeholder='Insira seu E-mail' name='email' onChange={handleInput} className='form-control rounded-0'/>
+                            {errors.email && <span className='text-danger'>{errors.email}</span>}
                         </div>
                         <div className='mb-3'>
                             <label htmlFor='password' className='mb-1'>Senha</label>
@@ -60,8 +72,7 @@ function Signup() {
                             {errors.password && <span className='text-danger'>{errors.password}</span>}
                             {errors.confirmPassword && <span className='text-danger'>{errors.confirmPassword}</span>}
                         </div>
-                        <button type='submit' className='btn btn-warning w-100'>Cadastrar</button>
-                        <p className='mb-4 mt-2'>Você concorda com nossas políticas e termos?</p>
+                        <button type='submit' className='btn btn-warning w-100 mb-4'>Cadastrar</button>
                         <Link to="/" className='btn btn-default border w-100 bg-light'>Entrar</Link>
                     </form>
                 </div>

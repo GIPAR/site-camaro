@@ -8,7 +8,7 @@ import { AuthContext } from './autheContext';
 
 function Login() {
     const [values, setValues] = useState({
-        id: '',
+        email: '',
         password: ''
     });
     const [errors, setErrors] = useState({});
@@ -24,8 +24,9 @@ function Login() {
         const validationErrors = Validation(values);
         setErrors(validationErrors);
 
+
         if (Object.keys(validationErrors).length === 0) {
-            axios.post('http://localhost:3001/login', values)
+            axios.post('http://localhost:3001/usuarios/login', values)
                 .then(res => {
                     login(res.data.user);
                     navigate('/home');
@@ -44,9 +45,9 @@ function Login() {
                     <h4 className='mb-4'>Entrar no sistema</h4>
                     <form onSubmit={handleSubmit}>
                         <div className='mb-3'>
-                            <label htmlFor='id' className='mb-1'>Numero do ID</label>
-                            <input type='text' placeholder='Insira seu ID' name='id' onChange={handleInput} className='form-control rounded' />
-                            {errors.id && <span className='text-danger'>{errors.id}</span>}
+                            <label htmlFor='email' className='mb-1'>E-Mail</label>
+                            <input type='email' placeholder='Insira seu E-mail' name='email' onChange={handleInput} className='form-control rounded' />
+                            {errors.email && <span className='text-danger'>{errors.email}</span>}
                         </div>
                         <div className='mb-3'>
                             <label htmlFor='password' className='mb-1'>Senha</label>
