@@ -39,7 +39,7 @@ function Dispositivos() {
   };
 
   const handleEditDispositivo = (id) => {
-    navigate(`/dispositivos/${id}`);
+    navigate(`/dispositivo/${id}`);
   };
 
   if (loading) {

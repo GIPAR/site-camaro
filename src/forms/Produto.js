@@ -1,40 +1,67 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Navbar from "../Navbar";
 import "./form.css";
 
 function Produto() {
+  const { id } = useParams();
   const [nome, setNome] = useState(""); // Product name
   const [descricao, setDescricao] = useState(""); // Product description
   const [mensagem, setMensagem] = useState("");
   const [produtoId, setProdutoId] = useState(null);
 
+  useEffect(() => {
+    // Caso o ID esteja presente, busque os dados do dispositivo
+    if (id) {
+      fetch(`http://localhost:3001/produtos/${id}`)
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Erro ao carregar os dados do dispositivo.");
+          }
+        })
+        .then((data) => {
+          const dados = data.produto;
+          setNome(dados.nome);
+          setDescricao(dados.descricao);
+        })
+        .catch((error) => setMensagem(error.message));
+    }
+  }, [id]);
+
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:3001/produtos", {
-        method: "POST",
+      const method = id ? "PATCH" : "POST"; // Se id existir, use PATCH; caso contrário, POST
+      const url = "http://localhost:3001/produtos";
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           nome: nome,
           descricao: descricao,
+          id: id,
         }),
       });
 
       if (response.ok) {
-        const data = await response.json();
-        setProdutoId(data.produtoId);
-        setMensagem("Produto adicionado com sucesso!");
-        setNome("");
-        setDescricao("");
+        const message = id
+          ? "Produto atualizado com sucesso!"
+          : "Produto adicionado com sucesso!";
+        setMensagem(message);
+        if (!id) {
+          setNome("");
+          setDescricao("");
+        }
       } else {
         const errorData = await response.json();
-        setMensagem("Erro ao adicionar o produto. " + errorData.message);
+        setMensagem("Erro ao salvar o produto. " + errorData.message);
       }
     } catch (error) {
-      setMensagem(
-        "Erro ao adicionar o produto. Tente novamente. " + error.message
-      );
+      setMensagem("Erro ao salvar o produto. " + error.message);
     }
   };
 

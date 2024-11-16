@@ -1,19 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Navbar from "../Navbar";
 import "./form.css";
 
 function Dispositivo() {
-  const [nome, setNome] = useState(""); // Store name
-  const [IP, setIP] = useState(""); // Store IP address
-  const [permissaoAcesso, setPermissaoAcesso] = useState(""); // Store access permission
-  const [tipo, setTipo] = useState(""); // Store device type
+  const { id } = useParams(); // Captura o ID da URL
+  const [nome, setNome] = useState("");
+  const [IP, setIP] = useState("");
+  const [permissaoAcesso, setPermissaoAcesso] = useState("");
+  const [tipo, setTipo] = useState("");
   const [mensagem, setMensagem] = useState("");
-  const [dispositivoId, setDispositivoId] = useState(null);
+
+  useEffect(() => {
+    // Caso o ID esteja presente, busque os dados do dispositivo
+    if (id) {
+      fetch(`http://localhost:3001/dispositivos/${id}`)
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Erro ao carregar os dados do dispositivo.");
+          }
+        })
+        .then((data) => {
+          const dados = data.dispositivo;
+          setNome(dados.nome);
+          setIP(dados.IP);
+          setPermissaoAcesso(dados.permissao_acesso);
+          setTipo(dados.tipo);
+        })
+        .catch((error) => setMensagem(error.message));
+    }
+  }, [id]);
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:3001/dispositivos", {
-        method: "POST",
+      const method = id ? "PATCH" : "POST"; // Se id existir, use PATCH; caso contrário, POST
+      const url = "http://localhost:3001/dispositivos";
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },
@@ -22,25 +48,27 @@ function Dispositivo() {
           IP: IP,
           permissao_acesso: permissaoAcesso,
           tipo: tipo,
+          id: id,
         }),
       });
 
       if (response.ok) {
-        const data = await response.json();
-        setDispositivoId(data.dispositivoId);
-        setMensagem("Dispositivo adicionado com sucesso!");
-        setNome("");
-        setIP("");
-        setPermissaoAcesso("");
-        setTipo("");
+        const message = id
+          ? "Dispositivo atualizado com sucesso!"
+          : "Dispositivo adicionado com sucesso!";
+        setMensagem(message);
+        if (!id) {
+          setNome("");
+          setIP("");
+          setPermissaoAcesso("");
+          setTipo("");
+        }
       } else {
         const errorData = await response.json();
-        setMensagem("Erro ao adicionar o dispositivo. " + errorData.message);
+        setMensagem("Erro ao salvar o dispositivo. " + errorData.message);
       }
     } catch (error) {
-      setMensagem(
-        "Erro ao adicionar o dispositivo. Tente novamente. " + error.message
-      );
+      setMensagem("Erro ao salvar o dispositivo. " + error.message);
     }
   };
 
@@ -49,7 +77,9 @@ function Dispositivo() {
       <Navbar />
       <div className="container">
         <div className="form-container">
-          <p className="fs-4">Adicionar Dispositivo</p>
+          <p className="fs-4">
+            {id ? "Editar Dispositivo" : "Adicionar Dispositivo"}
+          </p>
 
           {/* Nome do Dispositivo */}
           <p>Nome do Dispositivo</p>
@@ -72,10 +102,6 @@ function Dispositivo() {
           />
 
           {/* Permissão de Acesso */}
-          {/* 
-            // TODO: VERIFICAR CAMPOS
-            // TODO: TROCAR TEXTO POR CAIXA DE SELECAO
-          */}
           <p className="mt-4">Permissão de Acesso</p>
           <input
             className="form-control form-control-sm"
@@ -86,10 +112,6 @@ function Dispositivo() {
           />
 
           {/* Tipo do Dispositivo */}
-          {/* 
-            // TODO: VERIFICAR CAMPOS
-            // TODO: TROCAR TEXTO POR CAIXA DE SELECAO
-          */}
           <p className="mt-4">Tipo do Dispositivo</p>
           <input
             className="form-control form-control-sm"
@@ -101,13 +123,10 @@ function Dispositivo() {
 
           {/* Submit Dispositivo */}
           <button className="btn btn-warning w-100 mt-4" onClick={handleSubmit}>
-            Adicionar Dispositivo
+            {id ? "Atualizar Dispositivo" : "Adicionar Dispositivo"}
           </button>
 
           {mensagem && <p className="mt-3">{mensagem}</p>}
-          {dispositivoId && (
-            <p className="mt-3">ID do Dispositivo: {dispositivoId}</p>
-          )}
         </div>
       </div>
     </>

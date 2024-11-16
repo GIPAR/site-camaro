@@ -44,12 +44,15 @@ function App() {
 
           <Route path="/produtos" element={<Produtos />} />
           <Route path="/produto" element={<Produto />} />
+          <Route path="/produto/:id" element={<Produto />} />
 
           <Route path="/lojas" element={<Lojas />} />
-          <Route path="/loja" element={<Loja/>} />
+          <Route path="/loja" element={<Loja />} />
+          <Route path="/loja/:id" element={<Loja />} />
 
           <Route path="/dispositivos" element={<Dispositivos />} />
           <Route path="/dispositivo" element={<Dispositivo />} />
+          <Route path="/dispositivo/:id" element={<Dispositivo />} />
 
           {/* Rota padrão, em caso de rota inexistente */}
           {/* <Route path="*" element={<Navigate to="/" />} /> */}

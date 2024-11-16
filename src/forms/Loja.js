@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Navbar from "../Navbar";
 import "./form.css";
 
 function Loja() {
+  const { id } = useParams();
   const [nome, setNome] = useState(""); // Store name
   const [categoria, setCategoria] = useState(""); // Store category
   const [telefone, setTelefone] = useState(""); // Store phone number
@@ -11,10 +13,37 @@ function Loja() {
   const [mensagem, setMensagem] = useState("");
   const [lojaId, setLojaId] = useState(null);
 
+  // UseEffect para buscar dados da loja, caso o ID seja fornecido
+  useEffect(() => {
+    if (id) {
+      fetch(`http://localhost:3001/lojas/${id}`)
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Erro ao carregar os dados da loja.");
+          }
+        })
+        .then((data) => {
+          const dados = data.loja;
+          setNome(dados.nome);
+          setCategoria(dados.categoria);
+          setTelefone(dados.telefone);
+          setCoordenadaX(dados.posicao_x);
+          setCoordenadaY(dados.posicao_y);
+        })
+        .catch((error) => setMensagem(error.message));
+    }
+  }, [id]);
+
+  // Função de Submit para criar ou atualizar loja
   const handleSubmit = async () => {
+    const method = id ? "PATCH" : "POST"; // Se houver id, é uma edição (PATCH); caso contrário, é uma nova loja (POST)
+    const url = "http://localhost:3001/lojas";
+
     try {
-      const response = await fetch("http://localhost:3001/lojas", {
-        method: "POST",
+      const response = await fetch(url, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },
@@ -24,26 +53,30 @@ function Loja() {
           telefone: telefone,
           posicao_x: coordenadaX,
           posicao_y: coordenadaY,
+          id: id,
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        setLojaId(data.lojaId);
-        setMensagem("Loja adicionada com sucesso!");
-        setNome("");
-        setCategoria("");
-        setTelefone("");
-        setCoordenadaX("");
-        setCoordenadaY("");
+        setLojaId(data.lojaId || id); // Use o ID retornado ou o fornecido na URL
+        setMensagem(
+          id ? "Loja atualizada com sucesso!" : "Loja adicionada com sucesso!"
+        );
+        // Limpar campos se for nova loja
+        if (!id) {
+          setNome("");
+          setCategoria("");
+          setTelefone("");
+          setCoordenadaX("");
+          setCoordenadaY("");
+        }
       } else {
         const errorData = await response.json();
-        setMensagem("Erro ao adicionar a loja. " + errorData.message);
+        setMensagem("Erro ao salvar a loja. " + errorData.message);
       }
     } catch (error) {
-      setMensagem(
-        "Erro ao adicionar a loja. Tente novamente. " + error.message
-      );
+      setMensagem("Erro ao salvar a loja. Tente novamente. " + error.message);
     }
   };
 
@@ -52,7 +85,7 @@ function Loja() {
       <Navbar />
       <div className="container">
         <div className="form-container">
-          <p className="fs-4">Adicionar Loja</p>
+          <p className="fs-4">{id ? "Editar Loja" : "Adicionar Loja"}</p>
 
           {/* Nome da Loja */}
           <p>Nome da Loja</p>
@@ -65,10 +98,6 @@ function Loja() {
           />
 
           {/* Categoria da Loja */}
-          {/* 
-            // TODO: VERIFICAR CAMPOS
-            // TODO: TROCAR TEXTO POR CAIXA DE SELECAO
-          */}
           <p className="mt-4">Categoria da Loja</p>
           <input
             className="form-control form-control-sm"
@@ -110,7 +139,7 @@ function Loja() {
 
           {/* Submit Loja */}
           <button className="btn btn-warning w-100 mt-4" onClick={handleSubmit}>
-            Adicionar Loja
+            {id ? "Atualizar Loja" : "Adicionar Loja"}
           </button>
 
           {mensagem && <p className="mt-3">{mensagem}</p>}

@@ -37,7 +37,7 @@ function Produtos() {
   };
 
   const handleEditProduto = (id) => {
-    navigate(`/produtos/${id}`);
+    navigate(`/produto/${id}`);
   };
 
   if (loading) {

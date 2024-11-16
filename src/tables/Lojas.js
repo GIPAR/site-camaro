@@ -37,7 +37,7 @@ function Lojas() {
   };
 
   const handleEditLoja = (id) => {
-    navigate(`/lojas/${id}`);
+    navigate(`/loja/${id}`);
   };
 
   if (loading) {
