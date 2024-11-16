@@ -25,24 +25,12 @@ function Home() {
           <div className="carousel-inner">
             <div className="carousel-item active">
               <img src={passo1} className="d-block w-50 mx-auto" alt="Passo 1"/>
-              <div className="carousel-caption d-none d-md-block">
-                <h5>Passo 1</h5>
-                <p>Descrição do passo 1.</p>
-              </div>
             </div>
             <div className="carousel-item">
               <img src={passo2} className="d-block w-50 mx-auto" alt="Passo 2"/>
-              <div className="carousel-caption d-none d-md-block">
-                <h5>Passo 2</h5>
-                <p>Descrição do passo 2.</p>
-              </div>
             </div>
             <div className="carousel-item">
               <img src={passo3} className="d-block w-50 mx-auto" alt="Passo 3"/>
-              <div className="carousel-caption d-none d-md-block">
-                <h5>Passo 3</h5>
-                <p>Descrição do passo 3.</p>
-              </div>
             </div>
           </div>
           <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">

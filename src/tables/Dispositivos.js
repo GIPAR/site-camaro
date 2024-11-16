@@ -15,15 +15,19 @@ function Dispositivos() {
     fetch("http://localhost:3001/dispositivos")
       .then((response) => response.json())
       .then((data) => {
-        setDispositivos(data);
+        setDispositivos(data.dispositivos);
         setLoading(false);
       })
       .catch((error) => console.error(error));
   }, []);
 
   const handleDeleteDispositivo = (id) => {
-    fetch(`http://localhost:3001/dispositivo/${id}`, {
+    fetch(`http://localhost:3001/dispositivos`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id_dispositivo: id }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -35,7 +39,7 @@ function Dispositivos() {
   };
 
   const handleEditDispositivo = (id) => {
-    navigate(`/dispositivo/${id}`);
+    navigate(`/dispositivos/${id}`);
   };
 
   if (loading) {

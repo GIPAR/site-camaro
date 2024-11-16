@@ -15,15 +15,19 @@ function Lojas() {
     fetch("http://localhost:3001/lojas")
       .then((response) => response.json())
       .then((data) => {
-        setLojas(data);
+        setLojas(data.lojas);
         setLoading(false);
       })
       .catch((error) => console.error(error));
   }, []);
 
   const handleDeleteLoja = (id) => {
-    fetch(`http://localhost:3001/loja/${id}`, {
+    fetch(`http://localhost:3001/lojas`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id_loja: id }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -33,7 +37,7 @@ function Lojas() {
   };
 
   const handleEditLoja = (id) => {
-    navigate(`/loja/${id}`);
+    navigate(`/lojas/${id}`);
   };
 
   if (loading) {

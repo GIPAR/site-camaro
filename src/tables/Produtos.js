@@ -15,15 +15,19 @@ function Produtos() {
     fetch("http://localhost:3001/produtos")
       .then((response) => response.json())
       .then((data) => {
-        setProdutos(data);
+        setProdutos(data.produtos);
         setLoading(false);
       })
       .catch((error) => console.error(error));
   }, []);
 
   const handleDeleteProduto = (id) => {
-    fetch(`http://localhost:3001/produto/${id}`, {
+    fetch(`http://localhost:3001/produtos`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id_produto: id }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -33,7 +37,7 @@ function Produtos() {
   };
 
   const handleEditProduto = (id) => {
-    navigate(`/produto/${id}`);
+    navigate(`/produtos/${id}`);
   };
 
   if (loading) {

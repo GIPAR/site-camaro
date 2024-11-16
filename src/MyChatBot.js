@@ -53,11 +53,11 @@ const MyChatBot = () => {
       message: async (params) => {
         const pedidoId = params.userInput;
         try {
-          const response = await fetch(`http://localhost:3001/pedido/${pedidoId}`);
+          const response = await fetch(`http://localhost:3001/pedidos/${pedidoId}`);
           if (response.ok) {
             const data = await response.json();
             setPedidoDetails(data);
-            return `Pedido encontrado!\n\nID: ${data.id_pedido}\nStatus: ${data.status}\nEndereço: ${data.endereco_entrega}\nProdutos: ${data.produtos}`;
+            return `Pedido encontrado!\n\nID: ${data.id}\nStatus: ${data.status}\nEndereço: ${data.endereco_entrega}\nProdutos: ${data.produtos}`;
           } else {
             return "Pedido não encontrado. Por favor, verifique o ID e tente novamente.";
           }

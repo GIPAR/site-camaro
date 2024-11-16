@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../Navbar";
-import "./add.css";
+import "./form.css";
 
 function Loja() {
   const [nome, setNome] = useState(""); // Store name
@@ -13,7 +13,7 @@ function Loja() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:3001/loja", {
+      const response = await fetch("http://localhost:3001/lojas", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

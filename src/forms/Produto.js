@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../Navbar";
-import "./add.css";
+import "./form.css";
 
 function Produto() {
   const [nome, setNome] = useState(""); // Product name
@@ -10,7 +10,7 @@ function Produto() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:3001/produto", {
+      const response = await fetch("http://localhost:3001/produtos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

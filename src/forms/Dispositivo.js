@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Navbar from "../Navbar";
-import "./add.css";
+import "./form.css";
 
 function Dispositivo() {
   const [nome, setNome] = useState(""); // Store name
-  const [ip, setIP] = useState(""); // Store IP address
+  const [IP, setIP] = useState(""); // Store IP address
   const [permissaoAcesso, setPermissaoAcesso] = useState(""); // Store access permission
   const [tipo, setTipo] = useState(""); // Store device type
   const [mensagem, setMensagem] = useState("");
@@ -12,14 +12,14 @@ function Dispositivo() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:3001/dispositivo", {
+      const response = await fetch("http://localhost:3001/dispositivos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           nome: nome,
-          ip: ip,
+          IP: IP,
           permissao_acesso: permissaoAcesso,
           tipo: tipo,
         }),
@@ -67,7 +67,7 @@ function Dispositivo() {
             className="form-control form-control-sm"
             type="text"
             placeholder="Digite o endereço IP do dispositivo"
-            value={ip}
+            value={IP}
             onChange={(e) => setIP(e.target.value)}
           />
 

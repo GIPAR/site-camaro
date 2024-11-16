@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
 import Navbar from "../Navbar";
-import "./add.css";
+import "./form.css";
 import { AuthContext } from "../autheContext";
 
 function Pedido() {
@@ -20,17 +20,17 @@ function Pedido() {
     // Fetch lojas, dispositivos e produtos disponíveis do backend
     fetch("http://localhost:3001/lojas")
       .then((res) => res.json())
-      .then((data) => setLojas(data))
+      .then((data) => setLojas(data.lojas))
       .catch((err) => console.error(err));
 
     fetch("http://localhost:3001/dispositivos")
       .then((res) => res.json())
-      .then((data) => setDispositivos(data))
+      .then((data) => setDispositivos(data.dispositivos))
       .catch((err) => console.error(err));
 
     fetch("http://localhost:3001/produtos")
       .then((res) => res.json())
-      .then((data) => setListaProdutos(data)) // Fetch the list of products
+      .then((data) => setListaProdutos(data.produtos)) // Fetch the list of products
       .catch((err) => console.error(err));
   }, []);
 
@@ -100,7 +100,7 @@ function Pedido() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:3001/pedido", {
+      const response = await fetch("http://localhost:3001/pedidos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

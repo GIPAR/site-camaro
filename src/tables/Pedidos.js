@@ -15,15 +15,20 @@ function Pedidos() {
     fetch("http://localhost:3001/pedidos")
       .then((response) => response.json())
       .then((data) => {
-        setPedidos(data);
+        setPedidos(data.pedidos);
         setLoading(false);
       })
       .catch((error) => console.error(error));
   }, []);
 
   const handleDeletePedido = (id) => {
-    fetch(`http://localhost:3001/pedido/${id}`, {
+    fetch(`http://localhost:3001/pedidos`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+
+      },
+      body: JSON.stringify({ id_pedido: id }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -33,7 +38,7 @@ function Pedidos() {
   };
 
   const handleEditPedido = (id) => {
-    navigate(`/pedido/${id}`);
+    navigate(`/pedidos/${id}`);
   };
 
   if (loading) {
